@@ -12,15 +12,12 @@ public class Main {
 
         String text = scanner.nextLine().toLowerCase();
 
-        Stream<String> wordsStream = Arrays.stream(text.split("[^a-zA-Zа-яА-Я0-9]+")); // Создание потока слов из введенной строк
-
-        Map<String, Long> wordCount = wordsStream.collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));//счиатем количество повторений
-
-        wordCount.entrySet().stream()
+        Arrays.stream(text.split("[^a-zA-Zа-яА-Я0-9]+"))
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
                 .sorted(Map.Entry.<String, Long>comparingByValue().reversed().thenComparing(Map.Entry.comparingByKey()))
-                // ComparingByValue() сортирует от меньшего к большему
-                //сначала сортируем по количеству, потом по алфавиту
-                .limit(10)//ограничение 10 слов
-                .forEach(entry -> System.out.println(entry.getKey()));//печатаем слова
+                .limit(10)
+                .forEach(entry -> System.out.println(entry.getKey()));
+
     }
 }
